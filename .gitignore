@@ -1,0 +1,6 @@
+*.dll
+*.so
+obj/*
+bin/*
+.vscode/*
+Model/*
