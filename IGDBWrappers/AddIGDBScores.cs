@@ -15,7 +15,7 @@ namespace GamelistDB.IGDBWrappers
 
         Game[] gameList;
 
-        public AddIGDBScores() : base(){}
+        public AddIGDBScores(ref IGDBClient igdb) : base(ref igdb){}
         public async Task RunAsync()
         {
             foreach (Backlog game in gamelistdb.GetMissingScores())

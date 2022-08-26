@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="IGDB" Version="2.3.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.11">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
@@ -15,4 +16,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.sqlite" Version="5.0.11" />
   </ItemGroup>
 
+<Target Name="CopyCustomContent" AfterTargets="AfterBuild">
+  <Copy SourceFiles="config.json" DestinationFolder="$(OutDir)" />
+</Target>
 </Project>

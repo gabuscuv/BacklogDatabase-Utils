@@ -16,13 +16,9 @@ namespace GamelistDB.IGDBWrappers
         protected IGDBClient igdb;
         protected GameListsContext gamelistdb;
 
-        public IGDBQueryBase()
+        public IGDBQueryBase(ref IGDBClient _igdb)
         {
-            igdb = new IGDBClient(
-            // Found in Twitch Developer portal for your app
-            Environment.GetEnvironmentVariable("IGDB_CLIENT_ID"),
-            Environment.GetEnvironmentVariable("IGDB_CLIENT_SECRET")
-            );
+            igdb = _igdb;
             gamelistdb = new gamelist_db.Model.GameListsContext();
         }
 

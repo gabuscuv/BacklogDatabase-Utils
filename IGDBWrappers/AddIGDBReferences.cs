@@ -19,7 +19,7 @@ namespace GamelistDB
 
         Game[] gameList;
 
-        public AddIGDBReferences() : base(){}
+        public AddIGDBReferences(ref IGDBClient igdb) : base(ref igdb){}
         public async Task RunAsync()
         {
             System.Console.WriteLine("Starting Searching");
@@ -27,32 +27,26 @@ namespace GamelistDB
             {
                 Utils.WriteSection();
                 System.Console.WriteLine("Starting Searching: "+gamemissingid.Name);
-                try{
-                gameList = await igdb.QueryAsync<Game>(IGDBClient.Endpoints.Games, 
-                query: "fields id,name,created_at,involved_companies;"+
-                ""+
-                "where name ~ *\"" + gamemissingid.Name + "\"*"+
-                "& (category ="+(long)IGDB.Models.Category.MainGame+
-                " | category ="+(long)IGDB.Models.Category.Expansion+
-                " | category ="+(long)IGDB.Models.Category.Remake+
-                " | category ="+(long)IGDB.Models.Category.Remaster+
-                ");"+
-                "limit "+limitOfEnumerate+";");
-                }
-                catch(RestEase.ApiException e)
-                {
-                    Console.WriteLine("[ERR]:"+e.Content);
-                    continue;
-                }
 
+                if(await TryAdd(gamemissingid, await GetNames(gamemissingid.Name))) { gamelistdb.SaveChanges();continue;}
+                
+                System.Console.WriteLine("Not found " + gamemissingid.Name + "\n Searching Alternative Names...");
 
-                if (gameList.Length == 0)
-                {
-                    System.Console.WriteLine("Not found " + gamemissingid.Name);
-                    Utils.WriteSection();
-                    
-                    continue;
-                }
+                if (await TryAdd(gamemissingid, await GetAlternativeNames(gamemissingid.Name))) {continue;}
+                
+                System.Console.WriteLine("Not found " + gamemissingid.Name);
+                
+            }
+
+            gamelistdb.SaveChanges();
+            
+            gamelistdb.Dispose();
+        }
+
+        public async Task<bool> TryAdd(Backlog gamemissingid, IEnumerable<Game> gamelist)
+        {
+            
+                if (gameList.Length == 0){return false;}
 
                 if (gameList.Length == 1)
                 {
@@ -60,7 +54,7 @@ namespace GamelistDB
                     gamelistdb.GamesIds.Add(new GamesId() { Id = gamemissingid.Id, IgdbId = gameList.First().Id });
                     Utils.WriteSection();
 
-                    continue;
+                    return true;
                 }
 
                 for (int counter = 0; counter < limitOfEnumerate && counter < gameList.Length; counter++)
@@ -76,17 +70,52 @@ namespace GamelistDB
 
                 writebuffer = String.Empty;
                 
-                if (parsedvalue < 0) {continue;}
+                if (parsedvalue < 0) {return false;}
 
                 gamelistdb.GamesIds.Add(new GamesId() { Id = gamemissingid.Id, IgdbId = gameList[parsedvalue].Id });
                 Utils.WriteSection();
+                return true;
+        }
 
-            }
-
-            await gamelistdb.SaveChangesAsync();
+        public async Task<IEnumerable<Game>> GetNames(string name)
+        {
+            try{
+                return await igdb.QueryAsync<Game>(IGDBClient.Endpoints.Games, 
+                query: "fields id,name,created_at,involved_companies;"+
+                ""+
+                "where"
+                +" name ~ *\"" + name + "\"*"+
+//                "| alternative_names ~ *\"" + gamemissingid.Name + "\"*"+
+                " & (category ="   +    (long)IGDB.Models.Category.MainGame +
+                    " | category ="+    (long)IGDB.Models.Category.Expansion +
+                    " | category ="+    (long)IGDB.Models.Category.Remake +
+                    " | category ="+    (long)IGDB.Models.Category.Remaster +
+                ")"+
+                //"and "+
+                ";"+
+                "limit "+limitOfEnumerate+";");
+                }
+                catch(RestEase.ApiException e)
+                {
+                    Console.WriteLine("[ERR]:"+e.Content);
+                    return null;
+                }
         }
 
 
+        public async Task<IEnumerable<Game>> GetAlternativeNames(string alternativename)
+        {
+            try{
+            return (await igdb.QueryAsync<AlternativeName>(IGDBClient.Endpoints.AlternativeNames, query: 
+            "fields id,name;"+"where name ~ *\"" + alternativename + "\"*;")).Select(element=>element.Game.Value);
+            }  
+            catch(RestEase.ApiException e)
+            {
+                Console.WriteLine("[ERR]:"+e.Content);
+                return null;
+            }         
+                        
+        }
 
         public IList<Backlog> GetMissingEntries()
         {
