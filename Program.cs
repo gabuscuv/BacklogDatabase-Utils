@@ -9,7 +9,7 @@ namespace GamelistDB
     {
         // TODO: Dirty, I should make a Dependency Injection.
         private static IGDB.IGDBClient igdb;
-        static string[] Options = {"Add IGDB references","Add Scores from IGDB","Add Year Release from IGDB"};
+        static string[] Options = {"Add IGDB references","Add Scores from IGDB","Add Year Release from IGDB","","","","","","","Quit"};
         static string writebuffer;
         static bool exit=false;
         public static async Task Main(string[] args)
@@ -18,6 +18,7 @@ namespace GamelistDB
             while (!exit){
             for (int counter = 0; counter < Options.Length; counter++)
             {
+                if(String.IsNullOrEmpty(Options[counter])){continue;}
                 System.Console.WriteLine("\t[" + counter + "] - " + Options[counter]);
             }
 
