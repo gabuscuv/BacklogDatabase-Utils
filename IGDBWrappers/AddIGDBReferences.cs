@@ -1,3 +1,5 @@
+#define DEBUG
+
 using IGDB;
 using IGDB.Models;
 
@@ -17,7 +19,7 @@ namespace GamelistDB
         String writebuffer; 
         int parsedvalue;
 
-        Game[] gameList;
+        //Game[] gameList;
 
         public AddIGDBReferences(ref IGDBClient igdb) : base(ref igdb){}
         public async Task RunAsync()
@@ -30,10 +32,10 @@ namespace GamelistDB
 
                 if(await TryAdd(gamemissingid, await GetNames(gamemissingid.Name))) { gamelistdb.SaveChanges();continue;}
                 
-                System.Console.WriteLine("Not found " + gamemissingid.Name + "\n Searching Alternative Names...");
+/*                System.Console.WriteLine("Not found " + gamemissingid.Name + "\n Searching Alternative Names...");
 
                 if (await TryAdd(gamemissingid, await GetAlternativeNames(gamemissingid.Name))) {continue;}
-                
+*/              
                 System.Console.WriteLine("Not found " + gamemissingid.Name);
                 
             }
@@ -46,33 +48,34 @@ namespace GamelistDB
         public async Task<bool> TryAdd(Backlog gamemissingid, IEnumerable<Game> gamelist)
         {
             
-                if (gameList.Length == 0){return false;}
 
-                if (gameList.Length == 1)
+                if (gamelist != null && gamelist.Count() == 0){return false;}
+
+                if (gamelist.Count() == 1 && gamelist.First() != null)
                 {
-                    System.Console.WriteLine("Adding " + gameList.First().Name);
-                    gamelistdb.GamesIds.Add(new GamesId() { Id = gamemissingid.Id, IgdbId = gameList.First().Id });
+                    System.Console.WriteLine("Adding " + gamelist.First().Name);
+                    gamelistdb.GamesIds.Add(new GamesId() { Id = gamemissingid.Id, IgdbId = gamelist.First().Id });
                     Utils.WriteSection();
 
                     return true;
                 }
 
-                for (int counter = 0; counter < limitOfEnumerate && counter < gameList.Length; counter++)
+                for (int counter = 0; counter < limitOfEnumerate && counter < gamelist.Count(); counter++)
                 {
-                    System.Console.WriteLine("[" + counter + "]" + gameList[counter].Name + '('+ await getReleaseTimeFormatted(gameList[counter]) +")" /*+ "By:"+gameList[counter].InvolvedCompanies.Values.ToString()*/);
+                    System.Console.WriteLine("[" + counter + "]" + gamelist.ElementAt(counter).Name + '('+ await getReleaseTimeFormatted(gamelist.ElementAt(counter)) +")" /*+ "By:"+gameList[counter].InvolvedCompanies.Values.ToString()*/);
                 }
 
                 do{
                     if (! String.IsNullOrEmpty(writebuffer)){System.Console.WriteLine("\nPardon, Could You write again please?");}
                     System.Console.Write("\n\nChoose the correct game: ");
                     writebuffer = System.Console.ReadLine();
-                }while(! Int32.TryParse(writebuffer, out parsedvalue) || parsedvalue > gameList.Length);
+                }while(! Int32.TryParse(writebuffer, out parsedvalue) || parsedvalue > gamelist.Count());
 
                 writebuffer = String.Empty;
                 
                 if (parsedvalue < 0) {return false;}
 
-                gamelistdb.GamesIds.Add(new GamesId() { Id = gamemissingid.Id, IgdbId = gameList[parsedvalue].Id });
+                gamelistdb.GamesIds.Add(new GamesId() { Id = gamemissingid.Id, IgdbId = gamelist.ElementAt(parsedvalue).Id });
                 Utils.WriteSection();
                 return true;
         }
@@ -107,7 +110,7 @@ namespace GamelistDB
         {
             try{
             return (await igdb.QueryAsync<AlternativeName>(IGDBClient.Endpoints.AlternativeNames, query: 
-            "fields id,name;"+"where name ~ *\"" + alternativename + "\"*;")).Select(element=>element.Game.Value);
+            "fields id,name,game;"+"where name ~ *\"" + alternativename + "\"*;")).Select(element=>element.Game.Value);
             }  
             catch(RestEase.ApiException e)
             {
