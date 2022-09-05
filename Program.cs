@@ -9,35 +9,41 @@ namespace GamelistDB
     {
         // TODO: Dirty, I should make a Dependency Injection.
         private static IGDB.IGDBClient igdb;
-        static string[] Options = {"Add IGDB references","Add Scores from IGDB","Add Year Release from IGDB","","","","","","","Quit"};
+        static string[] Options = { "Add IGDB references", "Add Scores from IGDB", "Add Year Release from IGDB", "Add HowLongToBeat Stats", "", "", "", "", "", "Quit" };
         static string writebuffer;
-        static bool exit=false;
+        static bool exit = false;
         public static async Task Main(string[] args)
         {
             ReadConfig();
-            while (!exit){
-            for (int counter = 0; counter < Options.Length; counter++)
-            {
-                if(String.IsNullOrEmpty(Options[counter])){continue;}
-                System.Console.WriteLine("\t[" + counter + "] - " + Options[counter]);
-            }
 
-            int parsedvalue;
-            do{
-                if (! String.IsNullOrEmpty(writebuffer)){System.Console.WriteLine("\nPardon, Could You write again please?");}
+            while (!exit)
+            {
+                for (int counter = 0; counter < Options.Length; counter++)
+                {
+                    if (!String.IsNullOrEmpty(Options[counter]))
+                    {
+                        System.Console.WriteLine("\t[" + counter + "] - " + Options[counter]);
+                    }
+                }
+
+                int parsedvalue;
+                do
+                {
+                    if (!String.IsNullOrEmpty(writebuffer)) { System.Console.WriteLine("\nPardon, Could You write again please?"); }
                     System.Console.Write("\n\nChoose a Option (9 = for exit): ");
                     writebuffer = System.Console.ReadLine();
-                }while(! Int32.TryParse(writebuffer, out parsedvalue) || parsedvalue > Options.Length);
+                } while (!Int32.TryParse(writebuffer, out parsedvalue) || parsedvalue > Options.Length);
 
                 writebuffer = String.Empty;
-            switch(parsedvalue)
-            {
-                case 0: await new GamelistDB.AddIGDBReferences(ref igdb).RunAsync();break;
-                case 1: await new GamelistDB.IGDBWrappers.AddIGDBScores(ref igdb).RunAsync();break;
-                case 2: await new GamelistDB.IGDBWrappers.AddIGDBReleaseYear(ref igdb).RunAsync();break;
-                case 9:  exit = true;break;
-                default: break;
-            }
+                switch (parsedvalue)
+                {
+                    case 0: await new GamelistDB.IGDBWrappers.AddIGDBReferences(ref igdb).RunAsync(); break;
+                    case 1: await new GamelistDB.IGDBWrappers.AddIGDBScores(ref igdb).RunAsync(); break;
+                    case 2: await new GamelistDB.IGDBWrappers.AddIGDBReleaseYear(ref igdb).RunAsync(); break;
+                    case 3: await new GamelistDB.HLTBWrappers.AddHLTBStats().RunAsync(); break;
+                    case 9: exit = true; break;
+                    default: break;
+                }
             }
         }
 
@@ -64,8 +70,8 @@ namespace GamelistDB
             else
             {
                 GamelistDB.Utils.Log(
-                    "It doesn't exist config file: " + 
-                    Directory.GetCurrentDirectory()+ "/config.json" +
+                    "It doesn't exist config file: " +
+                    Directory.GetCurrentDirectory() + "/config.json" +
                     "\nPlease check the config file location");
             }
         }

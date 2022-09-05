@@ -3,7 +3,6 @@ using IGDB.Models;
 
 using gamelist_db.Model;
 using System.Linq;
-using System.Data;
 using System.Threading.Tasks;
 using GamelistDB.Extensions;
 
@@ -26,7 +25,6 @@ namespace GamelistDB.IGDBWrappers
                 if (DateList.Length == 0 || ! DateList.FirstOrDefault().Year.HasValue){System.Console.WriteLine("It doesn't have releaseyear ");continue;}
                 game.Releaseyear = DateList.FirstOrDefault().Year;
                 gamelistdb.Backlogs.Update(game);
-
             }
 
             gamelistdb.SaveChanges();
