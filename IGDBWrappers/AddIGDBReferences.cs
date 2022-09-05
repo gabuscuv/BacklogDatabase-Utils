@@ -1,25 +1,20 @@
-#define DEBUG
-
 using IGDB;
 using IGDB.Models;
 
 using gamelist_db.Model;
-using System;
+using System; // System.String
 using System.Linq;
-using System.Data;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+using System.Threading.Tasks; // Tasks
 
-namespace GamelistDB
+namespace GamelistDB.IGDBWrappers
 {
 
-    public class AddIGDBReferences : GamelistDB.IGDBWrappers.IGDBQueryBase
+    public class AddIGDBReferences : IGDBQueryBase
     {
         private const int limitOfEnumerate = 20;
         String writebuffer; 
         int parsedvalue;
-
-        //Game[] gameList;
 
         public AddIGDBReferences(ref IGDBClient igdb) : base(ref igdb){}
         public async Task RunAsync()

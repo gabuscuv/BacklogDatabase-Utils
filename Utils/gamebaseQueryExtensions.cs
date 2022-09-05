@@ -16,6 +16,17 @@ namespace GamelistDB.Extensions
             return gamelistdb.Backlogs.Where(element=> element.Releaseyear == null || element.Releaseyear == 0).ToList();
         }
 
+
+        public static IList<Backlog> GetMissingHLTB(this GameListsContext gamelistdb)
+        {
+            return gamelistdb.Backlogs.Where(element=> 
+                                            element.MinTime == null ||
+                                            element.MinTime == 0    || 
+                                            element.MaxTime == null || 
+                                            element.MaxTime == 0
+                                            ).ToList();
+        }
+
     }
     
     }
