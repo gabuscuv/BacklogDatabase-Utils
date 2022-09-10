@@ -82,10 +82,13 @@ namespace GamelistDB.IGDBWrappers
                 query: "fields id,name,created_at,involved_companies;"+
                 ""+
                 "where"
-                +" name ~ *\"" + name + "\"*"+
+                + " name ~ *\"" + name + "\"*"+
 //                "| alternative_names ~ *\"" + gamemissingid.Name + "\"*"+
                 " & (category ="   +    (long)IGDB.Models.Category.MainGame +
                     " | category ="+    (long)IGDB.Models.Category.Expansion +
+                    " | category ="+    (long)IGDB.Models.Category.StandaloneExpansion +
+                    " | category ="+    (long)IGDB.Models.Category.Bundle +
+                    " | category ="+    (long)IGDB.Models.Category.ExpandedGame +
                     " | category ="+    (long)IGDB.Models.Category.Remake +
                     " | category ="+    (long)IGDB.Models.Category.Remaster +
                 ")"+
