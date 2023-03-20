@@ -21,7 +21,7 @@ namespace GamelistDB.IGDBWrappers
             {
                 if (gamelistdb.GamesIds.Where(element => element.Id == game.Id).Count() == 0) { continue; }
                 System.Console.WriteLine("Getting Score of " + game.Name);
-                gameList = await this.RequestQuery("id,rating",game);
+                gameList = await this.RequestQuery("id,rating",gamelistdb.GetIgdbId(game));
                 if (gameList.Length == 0 ||! gameList.FirstOrDefault().Rating.HasValue){System.Console.WriteLine("It doesn't have score");continue;}
                 game.Score = (long)gameList.FirstOrDefault().Rating;
                 gamelistdb.Backlogs.Update(game);

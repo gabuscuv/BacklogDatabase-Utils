@@ -21,7 +21,7 @@ namespace GamelistDB.IGDBWrappers
             {
                 if (gamelistdb.GamesIds.Where(element => element.Id == game.Id && element.IgdbId.HasValue).Count() == 0) { continue; }
                 System.Console.WriteLine("Getting releaseyear of " + game.Name);
-                DateList = await this.RequestReleaseDateQuery("y",game);
+                DateList = await this.RequestReleaseDateQuery("y",gamelistdb.GetIgdbId(game)); // Y means year, 
                 if (DateList.Length == 0 || ! DateList.FirstOrDefault().Year.HasValue){System.Console.WriteLine("It doesn't have releaseyear ");continue;}
                 game.Releaseyear = DateList.FirstOrDefault().Year;
                 gamelistdb.Backlogs.Update(game);

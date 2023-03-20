@@ -2,6 +2,7 @@ using IGDB;
 using IGDB.Models;
 
 using gamelist_db.Model;
+using GamelistDB.Extensions;
 using System;
 using System.Linq;
 using System.Data;
@@ -21,10 +22,10 @@ namespace GamelistDB.IGDBWrappers
             gamelistdb = new gamelist_db.Model.GameListsContext();
         }
 
-        protected async Task<Game[]> RequestQuery(string query,Backlog game)
+        protected async Task<Game[]> RequestQuery(string query,long id)
         {
             try{
-            return await igdb.QueryAsync<Game>(IGDBClient.Endpoints.Games, query: "fields "+ query +"; where id =" + GetIgdbId(game) + ";");
+            return await igdb.QueryAsync<Game>(IGDBClient.Endpoints.Games, query: "fields "+ query +"; where id =" + id + ";");
             }
             catch(RestEase.ApiException e)
             {
@@ -36,12 +37,6 @@ namespace GamelistDB.IGDBWrappers
         protected async Task<IGDB.Models.ReleaseDate[]> RequestReleaseDateQuery(string query,Game game)
         {
             return await RequestReleaseDateQuery(query, (long)game.Id);
-        }
-
-
-        protected async Task<IGDB.Models.ReleaseDate[]> RequestReleaseDateQuery(string query,Backlog game)
-        {
-            return await RequestReleaseDateQuery(query, GetIgdbId(game));
         }
 
         protected async Task<IGDB.Models.ReleaseDate[]> RequestReleaseDateQuery(string query,long game)
@@ -62,9 +57,5 @@ namespace GamelistDB.IGDBWrappers
         }
         
 
-        protected long GetIgdbId(Backlog game)
-        {
-            return (long) gamelistdb.GamesIds.Where(element=>element.IgdbId != null).Where(element => element.Id == game.Id).FirstOrDefault().IgdbId;
-        }
     }
 }
