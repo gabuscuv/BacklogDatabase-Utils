@@ -9,7 +9,8 @@ namespace GamelistDB
     {
         // TODO: Dirty, I should make a Dependency Injection.
         private static IGDB.IGDBClient igdb;
-        static string[] Options = { "Add IGDB references", "Add Scores from IGDB", "Add Year Release from IGDB", "Add HowLongToBeat Stats", "", "", "", "", "", "Quit" };
+        private static DTO.Config config;
+        static string[] Options = { "Add IGDB references", "Add Scores from IGDB", "Add Year Release from IGDB", "Add HowLongToBeat Stats", "Export GamesCompleted/Beaten", "", "", "", "", "Quit" };
         static string writebuffer;
         static bool exit = false;
         public static async Task Main(string[] args)
@@ -41,6 +42,7 @@ namespace GamelistDB
                     case 1: await new GamelistDB.IGDBWrappers.AddIGDBScores(ref igdb).RunAsync(); break;
                     case 2: await new GamelistDB.IGDBWrappers.AddIGDBReleaseYear(ref igdb).RunAsync(); break;
                     case 3: await new GamelistDB.HLTBWrappers.AddHLTBStats().RunAsync(); break;
+                    case 4: await new GamelistDB.IGDBWrappers.JSONExporter(ref igdb,config.LIST_DEFAULT_OUTPUT).RunAsync(); break;
                     case 9: exit = true; break;
                     default: break;
                 }
@@ -52,7 +54,7 @@ namespace GamelistDB
             if (File.Exists(Directory.GetCurrentDirectory() + "/config.json"))
             {
                 GamelistDB.Utils.Log(("Reading config file:" + Directory.GetCurrentDirectory() + "/config.json"));
-                var config = JObject.Parse(File.ReadAllText(Directory.GetCurrentDirectory() + "/config.json")).ToObject<DTO.Config>();
+                config = JObject.Parse(File.ReadAllText(Directory.GetCurrentDirectory() + "/config.json")).ToObject<DTO.Config>();
                 if (config != null)
                 {
                     GamelistDB.Utils.Log("Config file read successfully\n");
@@ -73,6 +75,7 @@ namespace GamelistDB
                     "It doesn't exist config file: " +
                     Directory.GetCurrentDirectory() + "/config.json" +
                     "\nPlease check the config file location");
+                    System.Environment.Exit(-1);
             }
         }
 
