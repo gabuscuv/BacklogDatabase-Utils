@@ -43,7 +43,7 @@ namespace GamelistDB.IGDBWrappers
                 
                 foreach (var game in gamelistdb.GetBeatenGames(DateTime.Now.Year - i))
                 {
-                    Utils.Log("Checking " + game.Name);
+//                    Utils.Log("Checking " + game.Name);
 
                     if (output[currentYear] != null && IsInTheList(output, currentYear, game))
                     {
@@ -69,6 +69,7 @@ namespace GamelistDB.IGDBWrappers
                 if (!modifiedList || output[currentYear] == null){continue;}
 
                 output[currentYear] = new JArray(output[currentYear].OrderBy(element=>element.SelectToken("name")));
+                modifiedList = false;
 
             }
             System.IO.File.WriteAllText(defaultPath,output.ToString());
