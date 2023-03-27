@@ -22,6 +22,11 @@ namespace GamelistDB.IGDBWrappers
             gamelistdb = new gamelist_db.Model.GameListsContext();
         }
 
+        ~IGDBQueryBase()
+        {
+            gamelistdb.Dispose();
+        }
+
         protected async Task<Game[]> RequestQuery(string query,long id)
         {
             try{
