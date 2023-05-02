@@ -7,7 +7,7 @@ using GameListDB.Model.Extensions;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace GamelistDB.IGDBWrappers
+namespace GameListDB.IGDBWrappers
 {
 
     public class AddIGDBReleaseYear : IGDBQueryBase
@@ -15,7 +15,7 @@ namespace GamelistDB.IGDBWrappers
 
         ReleaseDate[] DateList;
 
-        public AddIGDBReleaseYear(ref IGDBClient igdb) : base(ref igdb){}
+        public AddIGDBReleaseYear(ref IGDBClient igdb, GameListDB.DTO.Options options) : base(ref igdb){}
         public async Task RunAsync()
         {
             foreach (Backlog game in gamelistdb.GetMissingReleaseYear())

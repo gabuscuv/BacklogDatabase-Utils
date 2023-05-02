@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using GameListDB.Model.Extensions;
 
-namespace GamelistDB.IGDBWrappers
+namespace GameListDB.IGDBWrappers
 {
 
     public class AddIGDBScores : IGDBQueryBase
@@ -14,7 +14,7 @@ namespace GamelistDB.IGDBWrappers
 
         Game[] gameList;
 
-        public AddIGDBScores(ref IGDBClient igdb) : base(ref igdb){}
+        public AddIGDBScores(ref IGDBClient igdb, GameListDB.DTO.Options options) : base(ref igdb){}
         public async Task RunAsync()
         {
             foreach (Backlog game in gamelistdb.GetMissingScores())

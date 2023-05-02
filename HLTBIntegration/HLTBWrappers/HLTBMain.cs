@@ -1,6 +1,6 @@
 using HowLongToBeat;
 
-using GamelistDB;
+using GameListDB;
 using System.Text.RegularExpressions;
 using System.Linq;
 using System.Threading.Tasks;

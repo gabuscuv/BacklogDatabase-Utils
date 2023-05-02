@@ -1,4 +1,4 @@
-namespace GamelistDB.DTO
+namespace GameListDB.DTO
 {
     public class Config
     {

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks; // Tasks
 
-namespace GamelistDB.IGDBWrappers
+namespace GameListDB.IGDBWrappers
 {
 
     public class AddIGDBReferences : IGDBQueryBase
@@ -16,7 +16,7 @@ namespace GamelistDB.IGDBWrappers
         String writebuffer; 
         int parsedvalue;
 
-        public AddIGDBReferences(ref IGDBClient igdb) : base(ref igdb){}
+        public AddIGDBReferences(ref IGDBClient igdb, GameListDB.DTO.Options options) : base(ref igdb){}
         public async Task RunAsync()
         {
             System.Console.WriteLine("Starting Searching");

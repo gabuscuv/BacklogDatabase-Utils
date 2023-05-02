@@ -8,7 +8,7 @@ using System.Linq;
 using System.Data;
 using System.Threading.Tasks;
 
-namespace GamelistDB.IGDBWrappers
+namespace GameListDB.IGDBWrappers
 {
 
     public class IGDBQueryBase

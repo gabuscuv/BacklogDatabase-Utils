@@ -1,4 +1,4 @@
-namespace GamelistDB
+namespace GameListDB
 {
     public static class Utils
     {

@@ -7,20 +7,22 @@ using System.Linq;
 using System.Threading.Tasks; // Tasks
 using System.IO;
 
-namespace GamelistDB.IGDBWrappers
+namespace GameListDB.IGDBWrappers
 {
     class JSONExporter : IGDBQueryBase
     {
-        public JSONExporter(ref IGDBClient igdb,string _defaultPath) : base(ref igdb)
+        public JSONExporter(ref IGDBClient igdb,string _defaultPath, GameListDB.DTO.Options options) : base(ref igdb)
         {
             defaultPath=_defaultPath;
+            force=options.Force;
         }
 
         private string defaultPath="./list.json";
         byte lastyears=14;
-
+        bool force = false;
         public JObject loadJson()
         {
+            if (force){ return new JObject();}
             try {
             return JObject.Parse(File.ReadAllText(defaultPath));
             }catch
@@ -61,6 +63,7 @@ namespace GamelistDB.IGDBWrappers
                         new JObject(
                             new JProperty("name", game.Name),
                             new JProperty("status", game.Status),
+                            new JProperty("nsfw", game.Nsfw),
                             new JProperty("plataform", game.Plataform),
                             new JProperty("releaseyear", game.Releaseyear),
                             new JProperty("img", (await geturlAsync(game)))));
