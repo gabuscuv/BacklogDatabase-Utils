@@ -1,6 +1,9 @@
 *.dll
 *.so
-obj/*
-bin/*
+*.dylib
+*.pdb
+*.cache
+.ModelMaker/**
+**/obj/*
+**/bin/*
 .vscode/*
-Model/*

@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
-using gamelist_db.Model;
+using GameListDB.Model;
 
-namespace GamelistDB.Extensions
+namespace GameListDB.Model.Extensions
     {
     public static class GameListExtensions
     {

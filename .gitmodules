@@ -1,0 +1,3 @@
+[submodule "AuxScripts"]
+	path = AuxScripts
+	url = https://github.com/gabuscuv/DotNetScripts.git

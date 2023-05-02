@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net7.0</TargetFramework>
-    <RootNamespace>gamelist_db</RootNamespace>
+    <RootNamespace>GameListDB</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\howlongtobeat\HowLongToBeat\HowLongToBeat.csproj" />
-    <ProjectReference Include="..\gamelistdb-model\gamelistdb_model.csproj" />
+    <ProjectReference Include="..\HLTBIntegration\HLTBIntegration.csproj" />
+    <ProjectReference Include="..\gamelistdb-model\GameListDB.Model.csproj" />
   </ItemGroup>
 
 <Target Name="CopyCustomContent" AfterTargets="AfterBuild">

@@ -1,7 +1,7 @@
 using IGDB;
 using IGDB.Models;
 
-using gamelist_db.Model;
+using GameListDB.Model;
 using System; // System.String
 using System.Linq;
 using System.Collections.Generic;
