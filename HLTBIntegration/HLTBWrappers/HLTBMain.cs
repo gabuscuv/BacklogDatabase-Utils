@@ -1,10 +1,11 @@
 using HowLongToBeat;
 
-using gamelist_db.Model;
+using GamelistDB;
 using System.Text.RegularExpressions;
 using System.Linq;
 using System.Threading.Tasks;
-using GamelistDB.Extensions;
+using GameListDB.Model;
+using GameListDB.Model.Extensions;
 using System.Collections.Generic;
 
 namespace GamelistDB.HLTBWrappers

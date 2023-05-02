@@ -1,10 +1,11 @@
 using IGDB;
 using IGDB.Models;
 
-using gamelist_db.Model;
+using GameListDB.Model;
+using GameListDB.Model.Extensions;
+
 using System.Linq;
 using System.Threading.Tasks;
-using GamelistDB.Extensions;
 
 namespace GamelistDB.IGDBWrappers
 {

@@ -2,7 +2,6 @@
 
 source ./AuxScripts/DotNetEntityScaffold ## Import DotNetScaffold function
 
-SED_OVERRIDE="false"
 
 ## Related to Database Connection
 CONNECTION_STRING_Name="GameList"
@@ -12,6 +11,10 @@ CONNECTION_STRING="Data Source="$HOME"/GameLists.db;"
 DataBaseConnector="Microsoft.EntityFrameworkCore.sqlite"
 
 TablesToGenerate=("Backlog" "GamesId")
+
+SED_OVERRIDE="false"
+STRING="$CONNECTION_STRING"
+
 
 ## Related to Classes Stuff
 ContextName="GameListsContext"

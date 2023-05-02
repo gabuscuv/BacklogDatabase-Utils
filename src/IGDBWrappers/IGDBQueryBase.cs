@@ -1,8 +1,8 @@
 using IGDB;
 using IGDB.Models;
 
-using gamelist_db.Model;
-using GamelistDB.Extensions;
+using GameListDB.Model;
+using GameListDB.Model.Extensions;
 using System;
 using System.Linq;
 using System.Data;
@@ -19,7 +19,7 @@ namespace GamelistDB.IGDBWrappers
         public IGDBQueryBase(ref IGDBClient _igdb)
         {
             igdb = _igdb;
-            gamelistdb = new gamelist_db.Model.GameListsContext();
+            gamelistdb = new GameListDB.Model.GameListsContext();
         }
 
         ~IGDBQueryBase()

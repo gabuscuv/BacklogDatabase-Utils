@@ -1,6 +1,6 @@
 using IGDB;
-using gamelist_db.Model;
-using GamelistDB.Extensions;
+using GameListDB.Model;
+using GameListDB.Model.Extensions;
 using System; // System.String
 using Newtonsoft.Json.Linq;
 using System.Linq;
