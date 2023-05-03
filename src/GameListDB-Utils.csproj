@@ -19,5 +19,6 @@
 
 <Target Name="CopyCustomContent" AfterTargets="AfterBuild">
   <Copy SourceFiles="config.json" DestinationFolder="$(OutDir)" />
+  <Copy SourceFiles="Exceptions.json" DestinationFolder="$(OutDir)" />
 </Target>
 </Project>

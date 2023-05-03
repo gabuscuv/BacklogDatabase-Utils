@@ -6,21 +6,28 @@ using Newtonsoft.Json.Linq;
 using System.Linq;
 using System.Threading.Tasks; // Tasks
 using System.IO;
+using System.Collections;
+using System.Collections.Generic;
+using GameListDB.DTO;
 
 namespace GameListDB.IGDBWrappers
 {
     class JSONExporter : IGDBQueryBase
     {
-        public JSONExporter(ref IGDBClient igdb,string _defaultPath, GameListDB.DTO.Options options) : base(ref igdb)
+        public JSONExporter(ref IGDBClient igdb,string _defaultPath, Options options) : base(ref igdb)
         {
             defaultPath=_defaultPath;
             force=options.Force;
+            ExceptionJSON=loadExceptionJson();
         }
 
+        IDictionary<string,DTO.ExceptionsJSONElement> ExceptionJSON;
         private string defaultPath="./list.json";
-        byte lastyears=14;
-        bool force = false;
-        public JObject loadJson()
+        private string exceptionjsonPath="./Exceptions.json";
+
+        private byte lastyears=14;
+        private bool force = false;
+        private JObject loadJson()
         {
             if (force){ return new JObject();}
             try {
@@ -30,6 +37,18 @@ namespace GameListDB.IGDBWrappers
                 return new JObject();
             }
         }
+
+
+        private IDictionary<string,ExceptionsJSONElement> loadExceptionJson()
+        {
+            try {
+            return JObject.Parse(File.ReadAllText(exceptionjsonPath)).ToObject<Dictionary<string,ExceptionsJSONElement>>();
+            }catch
+            {
+                return new Dictionary<string,ExceptionsJSONElement>();
+            }
+        }
+        
 
         public async Task RunAsync()
         {
@@ -83,11 +102,27 @@ namespace GameListDB.IGDBWrappers
             return output[currentYear].SelectToken("$.[?(@.name=='" + game.Name.Replace("'","\\'") + "')]") != null;
         }
 
+        public long Wrapper(long igdbid) 
+        {
+             
+            if(ExceptionJSON.ContainsKey(igdbid.ToString()) && ExceptionJSON[igdbid.ToString()].type.Equals("igdb"))
+            {
+                return (long)ExceptionJSON[igdbid.ToString()].igdbid;
+            }
+
+            return igdbid;
+        }
+
         public async Task<string> geturlAsync(Backlog game)
         {
             try{
+            var igdbid = gamelistdb.GetIgdbId(game);
+            if(ExceptionJSON.ContainsKey(igdbid.ToString()) && ExceptionJSON[igdbid.ToString()].type.Equals("url"))
+            {
+                return ExceptionJSON[igdbid.ToString()].url;
+            }
             return "http:" + (IGDB.ImageHelper.GetImageUrl(imageId: 
-            (await this.RequestQuery("cover.image_id",gamelistdb.GetIgdbId(game))).First().Cover.Value.ImageId, size: ImageSize.CoverBig, retina: false)).ToString();
+            (await this.RequestQuery("cover.image_id",Wrapper(igdbid))).First().Cover.Value.ImageId, size: ImageSize.CoverBig, retina: false)).ToString();
             }catch
             {
                 return "";
