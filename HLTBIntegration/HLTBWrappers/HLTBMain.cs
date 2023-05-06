@@ -8,7 +8,7 @@ using GameListDB.Model;
 using GameListDB.Model.Extensions;
 using System.Collections.Generic;
 
-namespace GamelistDB.HLTBWrappers
+namespace GameListDB.HLTBWrappers
 {
 
     public class AddHLTBStats
@@ -73,34 +73,17 @@ namespace GamelistDB.HLTBWrappers
 
         private bool AddToDatabase(Backlog game, HowLongToBeat.Game hltbgame)
         {
-            long output;
+            double output;
             
-            if (System.Int64.TryParse(regex.Match(hltbgame.Main).Value, out output))
+            if ( hltbgame.Main != null  && System.Double.TryParse(regex.Match(hltbgame.Main).Value, out output))
             {
-                // FIXME: Database
-                // My Table doesn't use REAL numbers (float integers compatible), 
-                // So It will be rounding up, Until I fix this.
-                if (hltbgame.Main.Contains('½'))
-                {
-                    output += 1;
-                }
-
                 game.MinTime = output;
 
             }
 
-            if (System.Int64.TryParse(regex.Match(hltbgame.MainAndExtras).Value, out output))
+            if (hltbgame.MainAndExtras != null && System.Double.TryParse(regex.Match(hltbgame.MainAndExtras).Value, out output))
             {
-                // FIXME: Database
-                // My Table doesn't use REAL numbers (float integers compatible), 
-                // So It will be rounding up, Until I fix this.
-                if (hltbgame.MainAndExtras.Contains('½'))
-                {
-                    output += 1;
-                }
-
                 game.MaxTime = output;
-                
             }
 
             gamelistdb.Backlogs.Update(game);

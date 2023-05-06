@@ -6,13 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
   
     <ProjectReference Include="..\..\howlongtobeat\HowLongToBeat\HowLongToBeat.csproj" />
-    <ProjectReference Include="..\..\gamelistdb-model\GameListDB.Model.csproj" />
+    <ProjectReference Include="..\gamelistdb-model\GameListDB.Model.csproj" />
     <ProjectReference Include="..\Utils\GameListDB.Utils.csproj" />
 
   </ItemGroup>
