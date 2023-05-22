@@ -1,3 +1,6 @@
 [submodule "AuxScripts"]
 	path = AuxScripts
 	url = https://github.com/gabuscuv/DotNetScripts.git
+[submodule "HLTBIntegration/howlongtobeat"]
+	path = HLTBIntegration/howlongtobeat
+	url = https://github.com/gabuscuv/howlongtobeat.git

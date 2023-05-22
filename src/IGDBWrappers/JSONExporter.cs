@@ -12,7 +12,7 @@ using GameListDB.DTO;
 
 namespace GameListDB.IGDBWrappers
 {
-    class JSONExporter : IGDBQueryBase
+    class JSONExporter : IGDBWrapperBase
     {
         public JSONExporter(ref IGDBClient igdb,string _defaultPath, Options options) : base(ref igdb)
         {
@@ -121,8 +121,7 @@ namespace GameListDB.IGDBWrappers
             {
                 return ExceptionJSON[igdbid.ToString()].url;
             }
-            return "http:" + (IGDB.ImageHelper.GetImageUrl(imageId: 
-            (await this.RequestQuery("cover.image_id",Wrapper(igdbid))).First().Cover.Value.ImageId, size: ImageSize.CoverBig, retina: false)).ToString();
+            return await igdb.GetBoxArtURL(Wrapper(igdbid));
             }catch
             {
                 return "";

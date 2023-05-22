@@ -19,12 +19,13 @@ namespace GameListDB.HLTBWrappers
         private string writebuffer;
         private int parsedvalue;
 
-        private static System.Net.Http.HttpClient Client = new System.Net.Http.HttpClient();
+        private System.Net.Http.HttpClient Client;
 
         public AddHLTBStats()
         {
             gamelistdb = new GameListsContext();
             regex = new Regex("([0-9])", RegexOptions.Compiled);
+            Client = new System.Net.Http.HttpClient();
         }
         public async Task RunAsync()
         {

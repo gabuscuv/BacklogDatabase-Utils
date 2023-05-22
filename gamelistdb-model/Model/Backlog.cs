@@ -21,7 +21,7 @@ public partial class Backlog
 
     public long? Priority { get; set; }
 
-    public byte[]? Beaten { get; set; }
+    public byte? Beaten { get; set; }
 
     public long? Completed { get; set; }
 

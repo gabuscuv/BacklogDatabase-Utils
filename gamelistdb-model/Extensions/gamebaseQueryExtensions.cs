@@ -38,6 +38,20 @@ namespace GameListDB.Model.Extensions
             return (long) gamelistdb.GamesIds.Where(element=>element.IgdbId != null).Where(element => element.Id == game.Id).FirstOrDefault().IgdbId;
         }
 
+        public static IList<Backlog> GetUnbeatenTopScoredGames(this GameListsContext gamelistdb, System.Range range)
+        {
+            return gamelistdb.Backlogs.Where(game=> game.Beaten != null && game.Beaten == 0 && game.Score != null).OrderByDescending(game=> game.Score).Take<Backlog>(range).ToList();
+        }
+
+        public static IList<Backlog> GetUnbeatenTop10PrioritesGames(this GameListsContext gamelistdb)
+        {
+            return gamelistdb.Backlogs.Where(
+                                            game=> game.Beaten != null && 
+                                            game.Beaten == 0 &&
+                                            game.Score != null &&
+                                            game.Priority < 3
+                                            ).OrderByDescending(game=> game.Score).Take<Backlog>(10).ToList();
+        }
     }
     
     }

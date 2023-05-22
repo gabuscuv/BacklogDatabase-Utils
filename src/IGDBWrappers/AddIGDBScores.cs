@@ -9,7 +9,7 @@ using GameListDB.Model.Extensions;
 namespace GameListDB.IGDBWrappers
 {
 
-    public class AddIGDBScores : IGDBQueryBase
+    public class AddIGDBScores : IGDBWrapperBase
     {
 
         Game[] gameList;
@@ -21,7 +21,7 @@ namespace GameListDB.IGDBWrappers
             {
                 if (gamelistdb.GamesIds.Where(element => element.Id == game.Id).Count() == 0) { continue; }
                 System.Console.WriteLine("Getting Score of " + game.Name);
-                gameList = await this.RequestQuery("id,rating",gamelistdb.GetIgdbId(game));
+                gameList = await igdb.RequestQuery("id,rating",gamelistdb.GetIgdbId(game));
                 if (gameList.Length == 0 ||! gameList.FirstOrDefault().Rating.HasValue){System.Console.WriteLine("It doesn't have score");continue;}
                 game.Score = (long)gameList.FirstOrDefault().Rating;
                 gamelistdb.Backlogs.Update(game);
