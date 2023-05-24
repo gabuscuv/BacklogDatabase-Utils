@@ -35,9 +35,11 @@ namespace GameListDB.Model.Extensions
 
         public static long GetIgdbId(this GameListsContext gamelistdb, Backlog game)
         {
-            return gamelistdb.GamesIds.Where(element => element.IgdbId != null)
-                .Where(element => element.Id == game.Id)
-                .FirstOrDefault().IgdbId.GetValueOrDefault();
+            return gamelistdb.GamesIds
+                            .Where(element => element.IgdbId != null)
+                            .Where(element => element.Id == game.Id)
+                            .First()
+                            .IgdbId.GetValueOrDefault();
         }
 
         public static IList<Backlog> GetUnbeatenTopScoredGames(this GameListsContext gamelistdb, int startIndex = 0, int length = 10)

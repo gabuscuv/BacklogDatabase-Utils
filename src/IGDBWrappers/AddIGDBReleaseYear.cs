@@ -15,15 +15,15 @@ namespace GameListDB.IGDBWrappers
 
         ReleaseDate[] DateList;
 
-        public AddIGDBReleaseYear(ref IGDBClient igdb, GameListDB.DTO.Options options) : base(ref igdb){}
+        public AddIGDBReleaseYear(ref IGDBClient igdb, GameListDB.DTO.Options options) : base(ref igdb) { }
         public async Task RunAsync()
         {
             foreach (Backlog game in gamelistdb.GetMissingReleaseYear())
             {
                 if (gamelistdb.GamesIds.Where(element => element.Id == game.Id && element.IgdbId.HasValue).Count() == 0) { continue; }
                 System.Console.WriteLine("Getting releaseyear of " + game.Name);
-                DateList = await igdb.RequestReleaseDateQuery("y",gamelistdb.GetIgdbId(game)); // Y means year, 
-                if (DateList.Length == 0 || ! DateList.FirstOrDefault().Year.HasValue){System.Console.WriteLine("It doesn't have releaseyear ");continue;}
+                DateList = await igdb.RequestReleaseDateQuery("y", gamelistdb.GetIgdbId(game)); // Y means year, 
+                if (DateList.Length == 0 || !DateList.FirstOrDefault().Year.HasValue) { System.Console.WriteLine("It doesn't have releaseyear "); continue; }
                 game.Releaseyear = DateList.FirstOrDefault().Year;
                 gamelistdb.Backlogs.Update(game);
             }

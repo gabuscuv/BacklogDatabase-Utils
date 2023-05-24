@@ -23,6 +23,6 @@ namespace GameListDB.IGDBWrappers
             igdb = new IGDBQueryBase(ref _igdb);
             gamelistdb = new GameListDB.Model.GameListsContext();
         }
-        
+
     }
 }
