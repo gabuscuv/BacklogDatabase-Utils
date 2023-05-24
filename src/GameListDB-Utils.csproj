@@ -12,9 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\HLTBIntegration\HLTBIntegration.csproj" />
+    <ProjectReference Include="..\HLTBIntegration\src\HLTBIntegration.csproj" />
     <ProjectReference Include="..\IGDBIntegration\IGDBIntegration.csproj" />
     <ProjectReference Include="..\gamelistdb-model\GameListDB.Model.csproj" />
+    <ProjectReference Include="..\Utils\GameListDB.Utils.csproj" />
   </ItemGroup>
 
 <Target Name="CopyCustomContent" AfterTargets="AfterBuild">

@@ -11,9 +11,9 @@
 
   <ItemGroup>
   
-    <ProjectReference Include="..\..\howlongtobeat\HowLongToBeat\HowLongToBeat.csproj" />
-    <ProjectReference Include="..\gamelistdb-model\GameListDB.Model.csproj" />
-    <ProjectReference Include="..\Utils\GameListDB.Utils.csproj" />
+    <ProjectReference Include="..\howlongtobeat\HowLongToBeat\HowLongToBeat.csproj" />
+    <ProjectReference Include="..\..\gamelistdb-model\GameListDB.Model.csproj" />
+    <ProjectReference Include="..\..\Utils\GameListDB.Utils.csproj" />
 
   </ItemGroup>
 
