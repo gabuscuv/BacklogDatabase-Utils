@@ -33,24 +33,30 @@ namespace GameListDB.Model.Extensions
         }
 
 
-        public static long GetIgdbId(this GameListsContext gamelistdb, Backlog game)
+        public static long? GetIgdbId(this GameListsContext gamelistdb, Backlog game)
         {
-            return (long) gamelistdb.GamesIds.Where(element=>element.IgdbId != null).Where(element => element.Id == game.Id).FirstOrDefault().IgdbId;
+            return gamelistdb.GamesIds.Where(element => element.IgdbId != null)
+                .Where(element => element.Id == game.Id)
+                .FirstOrDefault().IgdbId;
         }
 
-        public static IList<Backlog> GetUnbeatenTopScoredGames(this GameListsContext gamelistdb, System.Range range)
+        public static IList<Backlog> GetUnbeatenTopScoredGames(this GameListsContext gamelistdb, int startIndex = 0, int length = 10)
         {
-            return gamelistdb.Backlogs.Where(game=> game.Beaten != null && game.Beaten == 0 && game.Score != null).OrderByDescending(game=> game.Score).Take<Backlog>(range).ToList();
+            return gamelistdb.Backlogs.Where(game=> game.Beaten != null && game.Beaten == 0 && game.Score != null).OrderByDescending(game=> game.Score).Skip(startIndex).Take<Backlog>(length).ToList();
         }
 
-        public static IList<Backlog> GetUnbeatenTop10PrioritesGames(this GameListsContext gamelistdb)
+        public static IList<Backlog> GetUnbeatenTop10PrioritesGames(this GameListsContext gamelistdb, int startIndex = 0, int length = 10)
         {
             return gamelistdb.Backlogs.Where(
                                             game=> game.Beaten != null && 
                                             game.Beaten == 0 &&
                                             game.Score != null &&
                                             game.Priority < 3
-                                            ).OrderByDescending(game=> game.Score).Take<Backlog>(10).ToList();
+                                            )
+                                            .OrderBy(game=>game.Name)
+                                            .OrderBy(game=>game.Priority)
+                                            .Skip(startIndex)
+                                            .Take<Backlog>(length).ToList();
         }
     }
     

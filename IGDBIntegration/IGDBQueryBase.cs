@@ -18,6 +18,11 @@ namespace GameListDB.IGDBIntegration
             igdbClient = _igdb;
         }
 
+        public IGDBQueryBase(IGDBClient _igdb)
+        {
+            igdbClient = _igdb;
+        }
+
         public async Task<Game[]> RequestQuery(string query,long id)
         {
             try{
@@ -26,16 +31,17 @@ namespace GameListDB.IGDBIntegration
             catch(RestEase.ApiException e)
             {
                 Console.WriteLine("[ERR]:"+e.Content);
-                return null;
+                return new Game[]{};
             }
         }
 
         public async Task<IGDB.Models.ReleaseDate[]> RequestReleaseDateQuery(string query,Game game)
         {
+            if (game.Id == null){return new ReleaseDate[]{};}
             return await RequestReleaseDateQuery(query, (long)game.Id);
         }
 
-        public async Task<IGDB.Models.ReleaseDate[]> RequestReleaseDateQuery(string query,long game)
+        public async Task<IGDB.Models.ReleaseDate[]> RequestReleaseDateQuery(string query, long game)
         {
             try{
             return await this.igdbClient.QueryAsync<IGDB.Models.ReleaseDate>(IGDBClient.Endpoints.ReleaseDates, 
@@ -48,14 +54,15 @@ namespace GameListDB.IGDBIntegration
             catch(RestEase.ApiException e)
             {
                 Console.WriteLine("[ERR]:"+e.Content);
-                return null;
+                return new ReleaseDate[]{};;
             }
         }
         
-        public async Task<string> GetBoxArtURL(long igdbid)
+        public async Task<string> GetBoxArtURL(long? igdbid)
         {
+            if (igdbClient == null){return "";}
             return "http:" + (IGDB.ImageHelper.GetImageUrl(imageId: 
-            (await this.RequestQuery("cover.image_id",igdbid)).First().Cover.Value.ImageId, size: ImageSize.CoverBig, retina: false)).ToString();
+            (await this.RequestQuery("cover.image_id",(long)igdbid)).First().Cover.Value.ImageId, size: ImageSize.CoverBig, retina: false)).ToString();
         }
 
         public async Task<IEnumerable<Game>> GetNames(string name, int limitOfEnumerate = 20)
@@ -82,7 +89,7 @@ namespace GameListDB.IGDBIntegration
                 catch(RestEase.ApiException e)
                 {
                     Console.WriteLine("[ERR]:"+e.Content);
-                    return null;
+                    return new List<Game>();
                 }
         }
 
@@ -96,7 +103,7 @@ namespace GameListDB.IGDBIntegration
             catch(RestEase.ApiException e)
             {
                 Console.WriteLine("[ERR]:"+e.Content);
-                return null;
+                return new List<Game>();
             }         
                         
         }
@@ -104,7 +111,7 @@ namespace GameListDB.IGDBIntegration
         public async Task<string> getReleaseTimeFormatted(Game request)
         {
             var tmp = await this.RequestReleaseDateQuery("y",request);
-            if(tmp.Length != 0 ) {return tmp[0].Year.ToString();}
+            if(tmp.Length != 0 && tmp[0].Year != null) {return tmp[0].Year.ToString();}
             return "????";
         }
 

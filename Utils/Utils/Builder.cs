@@ -1,6 +1,6 @@
 ///using Prism.Common;
 
-namespace GamelistDB
+namespace GameListDB
 {
     public static class ServiceBuilder{
         public static void Build()
