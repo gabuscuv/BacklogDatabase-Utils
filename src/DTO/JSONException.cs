@@ -7,5 +7,7 @@ namespace GameListDB.DTO
         public string type { get; set; }
         public string url { get; set; }
         public long igdbid { get; set; }
+        public long steamid { get; set; }
+
     }
 }

@@ -9,7 +9,7 @@ public partial class Backlog
 
     public string Name { get; set; } = null!;
 
-    public string Plataform { get; set; } = null!;
+    public string? Plataform { get; set; }
 
     public long? Score { get; set; }
 
@@ -21,23 +21,23 @@ public partial class Backlog
 
     public long? Priority { get; set; }
 
-    public byte? Beaten { get; set; }
+    public long? Beaten { get; set; }
 
     public long? Completed { get; set; }
 
     public long? YearCompleted { get; set; }
 
-    public long? CurrentTime { get; set; }
+    public string? CurrentTime { get; set; }
 
     public double? MinTime { get; set; }
 
     public double? MaxTime { get; set; }
 
-    public long? GameSeriesId { get; set; }
+    public string? GameSeriesId { get; set; }
 
     public string? Playsite { get; set; }
 
-    public long? Dependence { get; set; }
+    public string? Dependence { get; set; }
 
     public string? WhenStart { get; set; }
 

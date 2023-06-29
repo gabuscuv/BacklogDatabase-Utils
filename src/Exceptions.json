@@ -1,10 +1,14 @@
 {
-    "0002": {
-        "type": "url",
-        "url": "https://www.google.com/library_600x900.jpg?t=1624574297"
-    },
     "0001": {
         "type": "igdb",
-        "igdbid": 53656
+        "igdbid": 30123
+    },
+    "0002": {
+        "type": "steamid",
+        "steamid": 312312
+    },
+    "0003": {
+        "type": "steamid",
+        "steamid": 321412
     }
 }

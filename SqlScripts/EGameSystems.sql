@@ -1,0 +1,10 @@
+CREATE TABLE "EGameSystem" (
+	"id"	INTEGER NOT NULL UNIQUE,
+	"name"	TEXT,
+	"isPortable"	INTEGER DEFAULT 0,
+	"emulable"	INTEGER DEFAULT 0,
+	"lowendEmulable"	INTEGER DEFAULT 0,
+	"own"	INTEGER DEFAULT 0,
+	"isRetro"	INTEGER DEFAULT 1,
+	PRIMARY KEY("id" AUTOINCREMENT)
+)

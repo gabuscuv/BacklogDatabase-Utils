@@ -1,0 +1,22 @@
+CREATE TABLE "Backlog" (
+	"id"	INTEGER NOT NULL UNIQUE,
+	"name"	TEXT NOT NULL,
+	"plataform"	TEXT,
+	"Score"	INTEGER,
+	"releaseyear"	INTEGER,
+	"nsfw"	INTEGER DEFAULT 0,
+	"status"	TEXT DEFAULT 'Not Started',
+	"priority"	INTEGER DEFAULT 5,
+	"beaten"	INTEGER DEFAULT 0,
+	"completed"	INTEGER DEFAULT 0,
+	"year_completed"	INTEGER,
+	"current_time"	TEXT,
+	"min_time"	REAL,
+	"max_time"	REAL,
+	"gameSeriesID"	TEXT,
+	"playsite"	TEXT,
+	"dependence"	TEXT,
+	"when_start"	TEXT,
+	"notes"	TEXT,
+	PRIMARY KEY("id" AUTOINCREMENT)
+)

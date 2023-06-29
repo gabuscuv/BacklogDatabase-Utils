@@ -1,0 +1,9 @@
+CREATE TABLE "GamesID" (
+	"id"	INTEGER,
+	"igdbID"	INTEGER,
+	"SteamID"	INTEGER,
+	"psnProfile"	INTEGER,
+	"PSStoreID"	INTEGER,
+	CONSTRAINT "Backlog" FOREIGN KEY("id") REFERENCES "GamesID",
+	PRIMARY KEY("id")
+)
