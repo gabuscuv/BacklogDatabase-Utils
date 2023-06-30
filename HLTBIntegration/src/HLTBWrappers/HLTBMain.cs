@@ -33,37 +33,43 @@ namespace GameListDB.HLTBWrappers
             IList<Game> gamelist;
             foreach (Backlog game in gamelistdb.GetMissingHLTB())
             {
-                
+
                 Utils.WriteSection();
-                Utils.Log("Searching: "+game.Name);
-                
+                Utils.Log("Searching: " + game.Name);
+
                 gamelist = await ws.Search(game.Name);
 
-                if (gamelist.Count() == 0){Utils.Log(game.Name + " Not found"); continue;}
+                if (gamelist.Count() == 0) { Utils.Log(game.Name + " Not found"); continue; }
 
                 if (gamelist.Count() == 1)
                 {
-                    AddToDatabase(game,gamelist.First());
+                    AddToDatabase(game, gamelist.First());
                     continue;
                 }
 
-                for (int counter = 0;counter < gamelist.Count(); counter++)
+                for (int counter = 0; counter < gamelist.Count(); counter++)
                 {
                     System.Console.WriteLine("[" + counter + "]" + gamelist.ElementAt(counter).Title);
                 }
 
-                do{
-                    if (! System.String.IsNullOrEmpty(writebuffer)){System.Console.WriteLine("\nPardon, Could You write again please?");}
-                    
+                do
+                {
+                    writebuffer = System.String.Empty;
+                    if (!System.String.IsNullOrEmpty(writebuffer)) { System.Console.WriteLine("\nPardon, Could You write again please?"); }
+
                     System.Console.Write("\n\nChoose the correct game [0]: ");
                     writebuffer = System.Console.ReadLine();
-                }while(! System.Int32.TryParse(writebuffer, out parsedvalue) || parsedvalue > gamelist.Count());
+                } while (
+                    !(System.Int32.TryParse(writebuffer, out parsedvalue) &&
+                        (
+                            (parsedvalue >= 0 && parsedvalue < gamelist.Count())
+                        || parsedvalue == -1))
+                    && !writebuffer.Equals(""));
 
-                if (parsedvalue == -1){continue;}
+                if (parsedvalue == -1) { continue; }
 
-                writebuffer = System.String.Empty;
 
-                AddToDatabase(game,gamelist.ElementAt(parsedvalue));
+                AddToDatabase(game, gamelist.ElementAt(!writebuffer.Equals("") ? parsedvalue : 0));
             }
 
             gamelistdb.SaveChanges();
@@ -75,8 +81,8 @@ namespace GameListDB.HLTBWrappers
         private bool AddToDatabase(Backlog game, HowLongToBeat.Game hltbgame)
         {
             double output;
-            
-            if ( hltbgame.Main != null  && System.Double.TryParse(regex.Match(hltbgame.Main).Value, out output))
+
+            if (hltbgame.Main != null && System.Double.TryParse(regex.Match(hltbgame.Main).Value, out output))
             {
                 game.MinTime = output;
 

@@ -6,14 +6,25 @@ namespace GameListDB.Model.Extensions
     {
     public static class GameListExtensions
     {
+        /// <summary>
+        /// Gather from the database any Games without a score setted (A null value))
+        /// </summary>
+        /// <param name="gamelistdb"></param>
+        /// <returns></returns>
         public static IList<Backlog> GetMissingScores(this GameListsContext gamelistdb)
         {
             return gamelistdb.Backlogs.Where(element=> element.Score == null || element.Score == 0).ToList();
         }
 
+        /// <summary>
+        /// Get from the database all the finished games from a year specifed by param.
+        /// </summary>
+        /// <param name="gamelistdb">The GameListDatabaseContext to search (not needed as extension)</param>
+        /// <param name="year">The year to look up.</param>
+        /// <returns></returns>
         public static IList<Backlog> GetBeatenGames(this GameListsContext gamelistdb, int year)
         {
-            return gamelistdb.Backlogs.Where(element=>element.YearCompleted == year).OrderBy(element=>element.Name).ToList();
+            return gamelistdb.Backlogs.Where(element=>element.Completedyear == year).OrderBy(element=>element.Name).ToList();
         }
 
         public static IList<Backlog> GetMissingReleaseYear(this GameListsContext gamelistdb)

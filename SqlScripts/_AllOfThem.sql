@@ -4,18 +4,18 @@ CREATE TABLE "Backlog" (
 	"plataform"	TEXT,
 	"Score"	INTEGER,
 	"releaseyear"	INTEGER,
-	"nsfw"	INTEGER DEFAULT 0,
+	"nsfw"	INTEGER DEFAULT 0 COLLATE BINARY,
 	"status"	TEXT DEFAULT 'Not Started',
 	"priority"	INTEGER DEFAULT 5,
-	"beaten"	INTEGER DEFAULT 0,
-	"completed"	INTEGER DEFAULT 0,
-	"year_completed"	INTEGER,
+	"beaten"	INTEGER DEFAULT 0 COLLATE BINARY,
+	"completed"	INTEGER DEFAULT 0 COLLATE BINARY,
+	"completedyear"	INTEGER,
 	"current_time"	TEXT,
 	"min_time"	REAL,
 	"max_time"	REAL,
-	"gameSeriesID"	TEXT,
+	"gameSeriesID"	INTEGER,
 	"playsite"	TEXT,
-	"dependence"	TEXT,
+	"dependence"	INTEGER,
 	"when_start"	TEXT,
 	"notes"	TEXT,
 	PRIMARY KEY("id" AUTOINCREMENT)
@@ -27,7 +27,7 @@ CREATE TABLE "EGameSeries" (
 	"parentSeries"	INTEGER,
 	"company"	INTEGER,
 	PRIMARY KEY("id" AUTOINCREMENT)
-)
+);
 
 CREATE TABLE "EGameSystem" (
 	"id"	INTEGER NOT NULL UNIQUE,
@@ -38,7 +38,7 @@ CREATE TABLE "EGameSystem" (
 	"own"	INTEGER DEFAULT 0,
 	"isRetro"	INTEGER DEFAULT 1,
 	PRIMARY KEY("id" AUTOINCREMENT)
-)
+);
 
 CREATE TABLE "GamesID" (
 	"id"	INTEGER,
@@ -48,4 +48,4 @@ CREATE TABLE "GamesID" (
 	"PSStoreID"	INTEGER,
 	CONSTRAINT "Backlog" FOREIGN KEY("id") REFERENCES "GamesID",
 	PRIMARY KEY("id")
-)
+);

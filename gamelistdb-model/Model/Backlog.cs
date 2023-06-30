@@ -25,7 +25,7 @@ public partial class Backlog
 
     public long? Completed { get; set; }
 
-    public long? YearCompleted { get; set; }
+    public long? Completedyear { get; set; }
 
     public string? CurrentTime { get; set; }
 
@@ -33,16 +33,18 @@ public partial class Backlog
 
     public double? MaxTime { get; set; }
 
-    public string? GameSeriesId { get; set; }
+    public long? GameSeriesId { get; set; }
 
     public string? Playsite { get; set; }
 
-    public string? Dependence { get; set; }
+    public long? Dependence { get; set; }
 
     public string? WhenStart { get; set; }
 
     public string? Notes { get; set; }
-
+    
+    // These two lines needed for CI Build Test but Crash in real life. WTH
+    
     public virtual Backlog? DependenceNavigation { get; set; }
 
     public virtual Backlog? InverseDependenceNavigation { get; set; }
