@@ -28,18 +28,16 @@ public partial class GameListsContext : DbContext
         {
             entity.ToTable("Backlog");
 
-            entity.HasIndex(e => e.Dependence, "IX_Backlog_dependence").IsUnique();
+            entity.HasIndex(e => e.Id, "IX_Backlog_id").IsUnique();
 
-            entity.Property(e => e.Id)
-                .ValueGeneratedNever()
-                .HasColumnName("id");
+            entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Beaten)
                 .HasDefaultValueSql("0")
-                .HasColumnType("NUMERIC")
                 .HasColumnName("beaten");
             entity.Property(e => e.Completed)
                 .HasDefaultValueSql("0")
                 .HasColumnName("completed");
+            entity.Property(e => e.Completedyear).HasColumnName("completedyear");
             entity.Property(e => e.CurrentTime).HasColumnName("current_time");
             entity.Property(e => e.Dependence).HasColumnName("dependence");
             entity.Property(e => e.GameSeriesId).HasColumnName("gameSeriesID");
@@ -59,12 +57,7 @@ public partial class GameListsContext : DbContext
             entity.Property(e => e.Status)
                 .HasDefaultValueSql("'Not Started'")
                 .HasColumnName("status");
-            entity.Property(e => e.WhenStart)
-                .HasDefaultValueSql("'Not Decided'")
-                .HasColumnName("when_start");
-            entity.Property(e => e.YearCompleted).HasColumnName("year_completed");
-
-            entity.HasOne(d => d.DependenceNavigation).WithOne(p => p.InverseDependenceNavigation).HasForeignKey<Backlog>(d => d.Dependence);
+            entity.Property(e => e.WhenStart).HasColumnName("when_start");
         });
 
         modelBuilder.Entity<GamesId>(entity =>

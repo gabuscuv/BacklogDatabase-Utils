@@ -42,10 +42,4 @@ public partial class Backlog
     public string? WhenStart { get; set; }
 
     public string? Notes { get; set; }
-    
-    // These two lines needed for CI Build Test but Crash in real life. WTH
-    
-    public virtual Backlog? DependenceNavigation { get; set; }
-
-    public virtual Backlog? InverseDependenceNavigation { get; set; }
 }
