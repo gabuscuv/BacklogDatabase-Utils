@@ -24,7 +24,7 @@ namespace GameListDB.HLTBWrappers
         public AddHLTBStats()
         {
             gamelistdb = new GameListsContext();
-            regex = new Regex("([0-9])", RegexOptions.Compiled);
+            regex = new Regex("([0-9].*[0-9])", RegexOptions.Compiled);
             Client = new System.Net.Http.HttpClient();
         }
         public async Task RunAsync()
