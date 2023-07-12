@@ -67,7 +67,7 @@ namespace GameListDB
                     case 0: await new GameListDB.IGDBWrappers.AddIGDBReferences(ref igdb, options).RunAsync(); break;
                     case 1: await new GameListDB.IGDBWrappers.AddIGDBScores(ref igdb, options).RunAsync(); break;
                     case 2: await new GameListDB.IGDBWrappers.AddIGDBReleaseYear(ref igdb, options).RunAsync(); break;
-                    case 3: await new GameListDB.HLTBWrappers.AddHLTBStats().RunAsync(); break;
+                    case 3: await new GameListDB.HLTBWrappers.AddHLTBStats(options.Verbose).RunAsync(); break;
                     case 4: await new GameListDB.IGDBWrappers.JSONExporter(ref igdb, config.LIST_DEFAULT_OUTPUT, options).RunAsync(); break;
                     case 9: exit = true; break;
                     default: break;

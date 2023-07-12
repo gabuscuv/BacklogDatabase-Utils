@@ -19,12 +19,15 @@ namespace GameListDB.HLTBWrappers
         private string writebuffer;
         private int parsedvalue;
 
+        private bool verbose;
+
         private System.Net.Http.HttpClient Client;
 
-        public AddHLTBStats()
+        public AddHLTBStats(bool verbose)
         {
+            this.verbose = verbose;
             gamelistdb = new GameListsContext();
-            regex = new Regex("([0-9].*[0-9])", RegexOptions.Compiled);
+            regex = new Regex(@"^\d*\.?\d*", RegexOptions.Compiled);
             Client = new System.Net.Http.HttpClient();
         }
         public async Task RunAsync()
@@ -84,12 +87,15 @@ namespace GameListDB.HLTBWrappers
 
             if (hltbgame.Main != null && System.Double.TryParse(regex.Match(hltbgame.Main).Value, out output))
             {
-                game.MinTime = output;
+                if (verbose) Utils.Log("Main Hours: " + hltbgame.Main + " Parsed:" + output);
 
+                game.MinTime = output;
             }
 
             if (hltbgame.MainAndExtras != null && System.Double.TryParse(regex.Match(hltbgame.MainAndExtras).Value, out output))
             {
+                if (verbose) Utils.Log("MainAndExtras Hours: " + hltbgame.MainAndExtras + " Parsed: " + output);
+
                 game.MaxTime = output;
             }
 
