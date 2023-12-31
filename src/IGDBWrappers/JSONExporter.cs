@@ -163,10 +163,10 @@ namespace GameListDB.IGDBWrappers
 
             output["GaaS"] = await FillGaaSData((JArray)output["GaaS"]);
 
-            }catch(Exception e)
+            }catch(Exception)
             {
                 System.IO.File.WriteAllText(defaultPath, output.ToString());
-                throw e;
+                throw;
             }
                 System.IO.File.WriteAllText(defaultPath, output.ToString());
 
