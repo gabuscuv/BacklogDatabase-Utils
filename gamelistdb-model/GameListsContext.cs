@@ -41,6 +41,7 @@ public partial class GameListsContext : DbContext
             entity.Property(e => e.CurrentTime).HasColumnName("current_time");
             entity.Property(e => e.Dependence).HasColumnName("dependence");
             entity.Property(e => e.GameSeriesId).HasColumnName("gameSeriesID");
+            entity.Property(e => e.InfiniteGame).HasDefaultValueSql("0");
             entity.Property(e => e.MaxTime).HasColumnName("max_time");
             entity.Property(e => e.MinTime).HasColumnName("min_time");
             entity.Property(e => e.Name).HasColumnName("name");
@@ -57,6 +58,7 @@ public partial class GameListsContext : DbContext
             entity.Property(e => e.Status)
                 .HasDefaultValueSql("'Not Started'")
                 .HasColumnName("status");
+            entity.Property(e => e.Type).HasDefaultValueSql("'Game'");
             entity.Property(e => e.WhenStart).HasColumnName("when_start");
         });
 

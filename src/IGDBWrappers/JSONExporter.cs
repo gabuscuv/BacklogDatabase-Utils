@@ -9,6 +9,7 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using GameListDB.DTO;
+using Newtonsoft.Json.Schema;
 
 namespace GameListDB.IGDBWrappers
 {
@@ -54,17 +55,15 @@ namespace GameListDB.IGDBWrappers
         }
 
 
-        public async Task RunAsync()
+        private async Task<JObject> FillYearlyData(JObject output ) 
         {
-            JObject output = loadJson();
             bool modifiedList = false;
             string currentYear;
-
+            try{
             for (int i = 0; i != lastyears; i++)
             {
                 currentYear = (DateTime.Now.Year - i).ToString();
                 Utils.Log("Looking for games beaten on " + currentYear);
-
 
                 foreach (var game in gamelistdb.GetBeatenGames(DateTime.Now.Year - i))
                 {
@@ -99,7 +98,79 @@ namespace GameListDB.IGDBWrappers
                 modifiedList = false;
 
             }
-            System.IO.File.WriteAllText(defaultPath, output.ToString());
+            }
+            catch
+            {
+                return output;
+            }
+
+            return output;
+        }
+
+       private async Task<JArray> FillGaaSData(JArray output ) 
+        {
+            bool modifiedList = false;
+
+            Utils.Log("Looking for GaaS:");
+
+            foreach (var game in gamelistdb.GetGameAsAServiceGames())
+            {
+                if (options.Verbose) Utils.Log("Checking " + game.Name);
+
+                if (IsInTheList(output, game))
+                {
+                    continue;
+                }
+
+                Utils.Log("Adding " + game.Name + " To JSON");
+                modifiedList = true;
+                ((JArray)output).Add(
+                    new JObject(
+                        new JProperty("name", game.Name),
+                        new JProperty("status", game.Status),
+                        new JProperty("nsfw", game.Nsfw),
+                        new JProperty("plataform", game.Plataform),
+                        new JProperty("releaseyear", game.Releaseyear),
+                        new JProperty("img", (await GetBoxArtUrlAsync(game)))));
+
+            }
+
+            if (modifiedList)
+            {
+                output = new JArray(output.OrderBy(element => element.SelectToken("name")));
+                modifiedList = false;
+            }
+            
+            return output;
+        }
+
+        public async Task RunAsync()
+        {
+            JObject output = loadJson();
+
+            try{
+
+            if (output["GamesYearly"] == null) 
+            {
+                output.Add(new JProperty("GamesYearly", new JObject()));
+            }
+
+            output["GamesYearly"] = await FillYearlyData((JObject)output["GamesYearly"]);
+            
+            if (output["GaaS"] == null) 
+            {
+                output.Add(new JProperty("GaaS", new JArray())); }
+
+            output["GaaS"] = await FillGaaSData((JArray)output["GaaS"]);
+
+            }catch(Exception e)
+            {
+                System.IO.File.WriteAllText(defaultPath, output.ToString());
+                throw e;
+            }
+                System.IO.File.WriteAllText(defaultPath, output.ToString());
+
+            return;          
         }
 
         /// <summary>
@@ -111,7 +182,12 @@ namespace GameListDB.IGDBWrappers
         /// <returns>valuation</returns>
         private static bool IsInTheList(JObject output, string currentYear, Backlog game)
         {
-            return output[currentYear].SelectToken("$.[?(@.name=='" + game.Name.Replace("'", "\\'") + "')]") != null;
+            return IsInTheList(output[currentYear],game);
+        }
+
+        private static bool IsInTheList(JToken output, Backlog game)
+        {
+            return output.SelectToken("$.[?(@.name=='" + game.Name.Replace("'", "\\'") + "')]") != null;
         }
 
         /// <summary>

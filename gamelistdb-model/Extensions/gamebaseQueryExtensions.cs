@@ -27,6 +27,11 @@ namespace GameListDB.Model.Extensions
             return gamelistdb.Backlogs.Where(element=>element.Completedyear == year).OrderBy(element=>element.Name).ToList();
         }
 
+        public static IList<Backlog> GetGameAsAServiceGames(this GameListsContext gamelistdb)
+        {
+            return gamelistdb.Backlogs.Where(element=>element.Type == "GaaS").OrderBy(element=>element.Name).ToList();
+        }
+
         public static IList<Backlog> GetMissingReleaseYear(this GameListsContext gamelistdb)
         {
             return gamelistdb.Backlogs.Where(element=> element.Releaseyear == null || element.Releaseyear == 0).ToList();

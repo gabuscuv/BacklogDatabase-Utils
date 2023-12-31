@@ -9,6 +9,8 @@ public partial class Backlog
 
     public string Name { get; set; } = null!;
 
+    public string? Type { get; set; }
+
     public string? Plataform { get; set; }
 
     public long? Score { get; set; }
@@ -18,6 +20,8 @@ public partial class Backlog
     public long? Nsfw { get; set; }
 
     public string? Status { get; set; }
+
+    public long? InfiniteGame { get; set; }
 
     public long? Priority { get; set; }
 
