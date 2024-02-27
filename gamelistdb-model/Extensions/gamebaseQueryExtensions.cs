@@ -24,7 +24,7 @@ namespace GameListDB.Model.Extensions
         /// <returns></returns>
         public static IList<Backlog> GetBeatenGames(this GameListsContext gamelistdb, int year)
         {
-            return gamelistdb.Backlogs.Where(element=>element.Completedyear == year).OrderBy(element=>element.Name).ToList();
+            return gamelistdb.Backlogs.Where(element=>element.Completedyear == year.ToString()).OrderBy(element=>element.Name).ToList();
         }
 
         public static IList<Backlog> GetGameAsAServiceGames(this GameListsContext gamelistdb)

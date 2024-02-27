@@ -5,15 +5,15 @@ namespace GameListDB.Model;
 
 public partial class GamesId
 {
-    public long Id { get; set; }
+    public int Id { get; set; }
 
-    public long? IgdbId { get; set; }
+    public int? IgdbId { get; set; }
 
-    public long? SteamId { get; set; }
+    public int? SteamId { get; set; }
 
-    public long? PsnProfile { get; set; }
+    public int? PsnProfile { get; set; }
 
-    public long? PsstoreId { get; set; }
+    public int? PsstoreId { get; set; }
 
     public virtual GamesId IdNavigation { get; set; } = null!;
 

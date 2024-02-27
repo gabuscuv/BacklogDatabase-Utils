@@ -32,33 +32,39 @@ public partial class GameListsContext : DbContext
 
             entity.Property(e => e.Id).HasColumnName("id");
             entity.Property(e => e.Beaten)
-                .HasDefaultValueSql("0")
+                .HasDefaultValue(0)
                 .HasColumnName("beaten");
             entity.Property(e => e.Completed)
-                .HasDefaultValueSql("0")
+                .HasDefaultValue(0)
                 .HasColumnName("completed");
-            entity.Property(e => e.Completedyear).HasColumnName("completedyear");
+            entity.Property(e => e.Completedyear)
+                .HasColumnType("INTEGER")
+                .HasColumnName("completedyear");
             entity.Property(e => e.CurrentTime).HasColumnName("current_time");
-            entity.Property(e => e.Dependence).HasColumnName("dependence");
-            entity.Property(e => e.GameSeriesId).HasColumnName("gameSeriesID");
-            entity.Property(e => e.InfiniteGame).HasDefaultValueSql("0");
+            entity.Property(e => e.Dependence)
+                .HasColumnType("INTEGER")
+                .HasColumnName("dependence");
+            entity.Property(e => e.GameSeriesId)
+                .HasColumnType("INTEGER")
+                .HasColumnName("gameSeriesID");
+            entity.Property(e => e.InfiniteGame).HasDefaultValue(0);
             entity.Property(e => e.MaxTime).HasColumnName("max_time");
             entity.Property(e => e.MinTime).HasColumnName("min_time");
             entity.Property(e => e.Name).HasColumnName("name");
             entity.Property(e => e.Notes).HasColumnName("notes");
             entity.Property(e => e.Nsfw)
-                .HasDefaultValueSql("0")
+                .HasDefaultValue(0)
                 .HasColumnName("nsfw");
             entity.Property(e => e.Plataform).HasColumnName("plataform");
             entity.Property(e => e.Playsite).HasColumnName("playsite");
             entity.Property(e => e.Priority)
-                .HasDefaultValueSql("5")
+                .HasDefaultValue(5)
                 .HasColumnName("priority");
             entity.Property(e => e.Releaseyear).HasColumnName("releaseyear");
             entity.Property(e => e.Status)
-                .HasDefaultValueSql("'Not Started'")
+                .HasDefaultValue("Not Started")
                 .HasColumnName("status");
-            entity.Property(e => e.Type).HasDefaultValueSql("'Game'");
+            entity.Property(e => e.Type).HasDefaultValue("Game");
             entity.Property(e => e.WhenStart).HasColumnName("when_start");
         });
 

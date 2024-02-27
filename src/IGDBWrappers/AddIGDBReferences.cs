@@ -49,7 +49,7 @@ namespace GameListDB.IGDBWrappers
             if (gamelist.Count() == 1 && gamelist.First() != null)
             {
                 System.Console.WriteLine("Adding " + gamelist.First().Name);
-                gamelistdb.GamesIds.Add(new GamesId() { Id = gamemissingid.Id, IgdbId = gamelist.First().Id });
+                gamelistdb.GamesIds.Add(new GamesId() { Id = (int)gamemissingid.Id, IgdbId = (int)gamelist.First().Id });
                 Utils.WriteSection();
 
                 return true;
@@ -71,7 +71,7 @@ namespace GameListDB.IGDBWrappers
 
             if (parsedvalue < 0) { return false; }
 
-            gamelistdb.GamesIds.Add(new GamesId() { Id = gamemissingid.Id, IgdbId = gamelist.ElementAt(parsedvalue).Id });
+            gamelistdb.GamesIds.Add(new GamesId() { Id = gamemissingid.Id, IgdbId = (int)gamelist.ElementAt(parsedvalue).Id });
             Utils.WriteSection();
             return true;
         }
