@@ -20,7 +20,7 @@ public partial class GameListsContext : DbContext
     public virtual DbSet<GamesId> GamesIds { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlite("Name=ConnectionStrings.GameList");
+        => optionsBuilder.UseSqlite("Data Source=/home/sifi/GameLists.db");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

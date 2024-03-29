@@ -23,9 +23,8 @@ namespace GameListDB.HLTBWrappers
 
         private System.Net.Http.HttpClient Client;
 
-        public AddHLTBStats(bool verbose)
+        public AddHLTBStats()
         {
-            this.verbose = verbose;
             gamelistdb = new GameListsContext();
             regex = new Regex(@"^\d*\.?\d*", RegexOptions.Compiled);
             Client = new System.Net.Http.HttpClient();
