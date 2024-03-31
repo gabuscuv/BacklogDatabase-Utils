@@ -18,10 +18,10 @@ namespace GameListDB.IGDBWrappers
         protected IGDBQueryBase igdb;
         protected GameListsContext gamelistdb;
 
-        public IGDBWrapperBase(IGDBClient _igdb)
+        public IGDBWrapperBase(IGDBClient _igdb, GameListsContext gameListsContext)
         {
             igdb = new IGDBQueryBase(ref _igdb);
-            gamelistdb = new GameListDB.Model.GameListsContext();
+            gamelistdb = gameListsContext;
         }
 
     }

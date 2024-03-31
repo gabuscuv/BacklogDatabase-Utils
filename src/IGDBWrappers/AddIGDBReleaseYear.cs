@@ -15,7 +15,7 @@ namespace GameListDB.IGDBWrappers
 
         ReleaseDate[] DateList;
 
-        public AddIGDBReleaseYear(IGDBClient igdb, GameListDB.DTO.Options options) : base(igdb) { }
+        public AddIGDBReleaseYear(IGDBClient igdb, GameListsContext gameListsContext, GameListDB.DTO.Options options) : base(igdb, gameListsContext) { }
         public async Task RunAsync()
         {
             foreach (Backlog game in gamelistdb.GetMissingReleaseYear())

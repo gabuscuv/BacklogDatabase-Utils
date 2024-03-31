@@ -10,15 +10,11 @@ namespace GameListDB
 {
     class Program
     {
-        // TODO: Dirty, I should make a Dependency Injection.
-
         private static ServiceProvider serviceProvider;        
         private static DTO.Options options;
         static readonly string[] Options = ["Add IGDB references", "Add Scores from IGDB", "Add Year Release from IGDB", "Add HowLongToBeat Stats", "Export GamesCompleted/Beaten", "", "", "", "", "Quit"];
         static string bufferwriter;
         static bool exit = false;
-
-        
 
         public static async Task Main(string[] args)
         {
@@ -33,6 +29,7 @@ namespace GameListDB
                             .AddSingleton<IGDB.IGDBClient>(new IGDB.IGDBClient(config.IGDB_CLIENT_ID, config.IGDB_CLIENT_SECRET))
                             .AddSingleton<Config>(config)                            
                             .AddSingleton<Options>(o)
+                            .AddDbContext<Model.GameListsContext>()
                             // Applications
                             .AddTransient<IGDBWrappers.AddIGDBReferences>()
                             .AddTransient<IGDBWrappers.AddIGDBScores>()
@@ -49,7 +46,7 @@ namespace GameListDB
                             {
                                 a.ToString();
                             }
-                            System.Environment.Exit(-1);
+                            Environment.Exit(-1);
                         }
                         );
 
@@ -58,7 +55,7 @@ namespace GameListDB
                 if (options.Force)
                 {
                     Utils.WriteSection();
-                    System.Console.Write("WARNING: FORCE MODE");
+                    Console.Write("WARNING: FORCE MODE");
                     Utils.WriteSection();
                 }
 
@@ -66,19 +63,19 @@ namespace GameListDB
                 {
                     if (!String.IsNullOrEmpty(Options[counter]))
                     {
-                        System.Console.WriteLine("\t[" + counter + "] - " + Options[counter]);
+                        Console.WriteLine("\t[" + counter + "] - " + Options[counter]);
                     }
                 }
 
                 int parsedvalue;
                 do
                 {
-                    if (!String.IsNullOrEmpty(bufferwriter)) { System.Console.WriteLine("\nPardon, Could You write again please?"); }
-                    System.Console.Write("\n\nChoose a Option (9 = for exit): ");
-                    bufferwriter = System.Console.ReadLine();
+                    if (!string.IsNullOrEmpty(bufferwriter)) { Console.WriteLine("\nPardon, Could You write again please?"); }
+                    Console.Write("\n\nChoose a Option (9 = for exit): ");
+                    bufferwriter = Console.ReadLine();
                 } while (!Int32.TryParse(bufferwriter, out parsedvalue) || parsedvalue > Options.Length);
 
-                bufferwriter = String.Empty;
+                bufferwriter = string.Empty;
                 switch (parsedvalue)
                 {
                     case 0: await serviceProvider.GetRequiredService<IGDBWrappers.AddIGDBReferences>().RunAsync(); break;

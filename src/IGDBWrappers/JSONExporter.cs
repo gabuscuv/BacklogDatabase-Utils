@@ -15,7 +15,7 @@ namespace GameListDB.IGDBWrappers
 {
     class JSONExporter : IGDBWrapperBase
     {
-        public JSONExporter(IGDBClient igdb, Config config, Options options) : base(igdb)
+        public JSONExporter(IGDBClient igdb, GameListsContext gameListsContext, Config config, Options options) : base(igdb, gameListsContext)
         {
             defaultPath = config.LIST_DEFAULT_OUTPUT;
             this.options = options;

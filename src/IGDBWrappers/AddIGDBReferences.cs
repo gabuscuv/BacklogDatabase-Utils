@@ -16,7 +16,7 @@ namespace GameListDB.IGDBWrappers
         String writebuffer;
         int parsedvalue;
 
-        public AddIGDBReferences(IGDBClient igdb, GameListDB.DTO.Options options) : base(igdb) { }
+        public AddIGDBReferences(IGDBClient igdb, GameListsContext gameListsContext, GameListDB.DTO.Options options) : base(igdb, gameListsContext) { }
         public async Task RunAsync()
         {
             System.Console.WriteLine("Starting Searching");
