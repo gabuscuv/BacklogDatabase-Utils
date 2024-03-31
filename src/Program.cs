@@ -35,6 +35,7 @@ namespace GameListDB
                             .AddTransient<IGDBWrappers.AddIGDBScores>()
                             .AddTransient<IGDBWrappers.AddIGDBReleaseYear>()
                             .AddTransient<HLTBWrappers.AddHLTBStats>()
+                            .AddTransient<BackloggdIntegration.BackloggdExporter>()
                             .AddTransient<IGDBWrappers.JSONExporter>()
                             .BuildServiceProvider();
                            options = o;
@@ -83,6 +84,7 @@ namespace GameListDB
                     case 2: await serviceProvider.GetRequiredService<IGDBWrappers.AddIGDBReleaseYear>().RunAsync(); break;
                     case 3: await serviceProvider.GetRequiredService<HLTBWrappers.AddHLTBStats>().RunAsync(); break;
                     case 4: await serviceProvider.GetRequiredService<IGDBWrappers.JSONExporter>().RunAsync(); break;
+                    case 5: await serviceProvider.GetRequiredService<BackloggdIntegration.BackloggdExporter>().RunAsync(); break;
                     case 9: exit = true; break;
                     default: break;
                 }

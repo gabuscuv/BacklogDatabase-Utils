@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\gamelistdb-model\GameListDB.Model.csproj" />
+    <ProjectReference Include="..\Utils\GameListDB.Utils.csproj" />
+  </ItemGroup>
 </Project>
