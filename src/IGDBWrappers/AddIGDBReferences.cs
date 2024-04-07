@@ -37,7 +37,6 @@ namespace GameListDB.IGDBWrappers
 
             gamelistdb.SaveChanges();
 
-            gamelistdb.Dispose();
         }
 
         public async Task<bool> TryAdd(Backlog gamemissingid, IEnumerable<Game> gamelist)

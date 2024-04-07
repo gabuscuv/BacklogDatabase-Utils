@@ -23,9 +23,9 @@ namespace GameListDB.HLTBWrappers
 
         private System.Net.Http.HttpClient Client;
 
-        public AddHLTBStats()
+        public AddHLTBStats(GameListsContext gameLists)
         {
-            gamelistdb = new GameListsContext();
+            gamelistdb = gameLists;
             regex = new Regex(@"^\d*\.?\d*", RegexOptions.Compiled);
             Client = new System.Net.Http.HttpClient();
         }
@@ -76,7 +76,6 @@ namespace GameListDB.HLTBWrappers
 
             gamelistdb.SaveChanges();
 
-            gamelistdb.Dispose();
 
         }
 
